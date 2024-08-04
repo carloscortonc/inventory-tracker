@@ -24,4 +24,8 @@ export default {
     password: process.env.EMAIL_PASSWORD,
     secret: process.env.EMAIL_SECRET,
   },
+  srvuser: {
+    username: "scannersrv",
+    password: process.env.SRV_PASSWORD,
+  },
 } as const;

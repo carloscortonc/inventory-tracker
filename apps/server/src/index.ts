@@ -9,7 +9,7 @@ import { errorHandler } from "@/modules/error";
 import log, { logger } from "@/modules/logger";
 import productsRouter from "@/routes/products/router";
 import authRouter from "@/routes/auth/router";
-import { authenticated } from "@/modules/auth";
+import { authenticated, initializeServiceUser } from "@/modules/auth";
 import { User } from "@/entities/user";
 
 const app = new Koa<any, { user: User }>();
@@ -36,6 +36,8 @@ app.use(errorHandler);
 app.use(apiRouter.routes()).use(apiRouter.allowedMethods());
 
 await init("scanner");
+
+await initializeServiceUser();
 
 app.listen(config.port, () => {
   log.info("Server listing on port ".concat(config.port));

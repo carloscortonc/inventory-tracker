@@ -7,8 +7,7 @@
   "scripts": {
     "start": "nodemon --watch src -e ts --exec tsx src/index.ts",
     "build": "rimraf dist && tsc && tsc-alias -f && copyfiles package*.json .env Dockerfile dist",
-    "package": "echo [server::package]",
-    "deploy": "npm run build && rpi deploy dist --name server --vars PORT=8080 --build-on-target"
+    "deploy": "npm run build && rpi deploy dist --name server --vars PORT=8080,SRV_PASSWORD=$SRV_PASSWORD --build-on-target"
   },
   "dependencies": {
     "@koa/router": "^12.0.1",
