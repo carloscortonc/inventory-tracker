@@ -1,0 +1,30 @@
+{
+  "name": "@inventory-tracker/scanner",
+  "version": "0.1.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": "20.16.0"
+  },
+  "scripts": {
+    "start": "ts-node-esm src/index.ts",
+    "build": "rimraf dist && tsc && tsc-alias -f && copyfiles *.js package.json Dockerfile dist",
+    "package": "rpi -h",
+    "deploy": "echo [scanner::deploy]"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-hid": "3.1.0",
+    "serialport": "^12.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.10",
+    "typescript": "^5.5.3"
+  }
+}

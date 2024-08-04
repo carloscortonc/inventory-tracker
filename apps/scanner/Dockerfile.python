@@ -1,0 +1,10 @@
+FROM python:3-alpine
+
+# RUN pip install --no-cache-dir --upgrade pip && \ 
+#   pip install --no-cache-dir pyserial
+
+WORKDIR /app
+
+COPY . .
+
+CMD ["python3", "scanner-kb.py"]

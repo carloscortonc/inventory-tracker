@@ -1,2 +1,6 @@
+dist
 .env
+.turbo
 node_modules
+.DS_Store
+*.zip
