@@ -1,0 +1,43 @@
+{
+  "name": "@inventory-tracker/server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --watch src -e ts --exec tsx src/index.ts",
+    "build": "rimraf dist && tsc && tsc-alias -f && copyfiles package*.json .env Dockerfile dist",
+    "package": "echo [server::package]",
+    "deploy": "npm run build && rpi deploy dist --name server --vars PORT=8080 --build-on-target"
+  },
+  "dependencies": {
+    "@koa/router": "^12.0.1",
+    "dotenv": "^16.4.5",
+    "js-sha256": "^0.11.0",
+    "jsdom": "^24.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "koa": "^2.15.3",
+    "koa-bodyparser": "^4.4.1",
+    "koa-cookies": "^4.0.2",
+    "lodash.omit": "^4.5.0",
+    "mongoose": "^8.4.0",
+    "ms": "^2.1.3",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.6",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/koa": "^2.15.0",
+    "@types/koa__router": "^12.0.4",
+    "@types/koa-bodyparser": "^4.3.12",
+    "@types/lodash.omit": "^4.5.9",
+    "copyfiles": "^2.4.1",
+    "nodemon": "^3.1.0",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.10.5",
+    "typescript": "^5.4.5"
+  }
+}
