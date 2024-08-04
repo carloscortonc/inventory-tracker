@@ -1,6 +1,6 @@
 import { ENTER, getChar } from "./keymap";
 
-export class CodeBuilder {
+export default class CodeBuilder {
   #str = "";
 
   process(hexCode: string) {

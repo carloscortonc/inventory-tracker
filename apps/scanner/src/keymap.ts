@@ -1,3 +1,8 @@
+/**
+ * SOURCES:
+ * - https://github.com/node-hid/node-hid/issues/228#issuecomment-341976702
+ */
+
 export const ENTER = "<enter>";
 
 const KeyMap = {

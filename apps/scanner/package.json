@@ -9,15 +9,14 @@
   },
   "scripts": {
     "start": "ts-node-esm src/index.ts",
-    "build": "rimraf dist && tsc && tsc-alias -f && copyfiles *.js package.json Dockerfile dist",
-    "package": "rpi -h",
-    "deploy": "echo [scanner::deploy]"
+    "build": "rimraf dist && tsc && tsc-alias -f && copyfiles .env package*.json Dockerfile dist",
+    "deploy": "rpi deploy dist --name scanner --vars SRV_PASSWORD=$SRV_PASSWORD --build-on-target"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-hid": "3.1.0",
-    "serialport": "^12.0.0"
+    "axios": "^1.7.3",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "@types/node": "^20.14.12",

@@ -1,16 +1,19 @@
-import HID from "node-hid";
-import { CodeBuilder } from "./code-builder";
+import HIDDevice from "./hid-device";
+import CodeBuilder from "./code-builder";
+import { sendCode } from "./server-integration";
 
-const devices = HID.devices();
+const devicePath = "/dev/hidraw0";
 
-const device = new HID.HID(devices[0].path);
+const device = HIDDevice(devicePath);
 
 // prettier-ignore
 let codeBuilder = new CodeBuilder(), code: string;
-device.on("data", function (data) {
-  console.log("[RAW]", data);
+device.on("data", function (data: Buffer) {
   const hexCode = Buffer.from([data[2]]).toString("hex");
   if ((code = codeBuilder.process(hexCode))) {
     console.log("[barcode]", code);
+    sendCode(code);
   }
 });
+
+console.log("Scanner listenning for barcodes");
