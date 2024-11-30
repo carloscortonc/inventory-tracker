@@ -7,14 +7,12 @@ export function Controller<T extends Constructor>(Target: T): T {
   return class extends Target {
     constructor(...args: any[]) {
       super(...args);
-      const methodsToDecorate = Object.getOwnPropertyNames(
-        Target.prototype
-      ).filter(
+      const methodsToDecorate = Object.getOwnPropertyNames(Target.prototype).filter(
         (n) =>
           n !== "constructor" &&
           typeof this[n] === "function" &&
           // assume methods starting with lowercase are private
-          !n.startsWith("_")
+          !n.startsWith("_"),
       );
       for (const m of methodsToDecorate) {
         this[m] = this[m].bind(this);
@@ -25,7 +23,7 @@ export function Controller<T extends Constructor>(Target: T): T {
             .apply(this, [ctx, ...rest])
             .then((r: unknown) => {
               ctx.body = r || ctx.body;
-              ctx.status = 200;
+              ctx.status ||= 200;
               return ctx.body;
             })
             .catch((e: Error) => {

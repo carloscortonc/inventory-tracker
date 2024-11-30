@@ -11,10 +11,7 @@ class AuthService {
    */
   async validateUser(user: User) {
     const u = await UserSchema.findOne({ username: user.username });
-    if (
-      !!user.isServiceAccount !== !!u.isServiceAccount ||
-      hash(user.password) !== u.password
-    ) {
+    if (!!user.isServiceAccount !== !!u.isServiceAccount || hash(user.password) !== u.password) {
       throw new Error("Error verifying user");
     }
     return u.toJSON();
@@ -34,14 +31,8 @@ class AuthService {
     };
   }
 
-  verifyToken(
-    token: string,
-    type: "access" | "refresh"
-  ): Omit<User, "password"> {
-    const tokenSecret =
-      type === "access"
-        ? config.auth.accessTokenSecret
-        : config.auth.refreshTokenSecret;
+  verifyToken(token: string, type: "access" | "refresh"): Omit<User, "password"> {
+    const tokenSecret = type === "access" ? config.auth.accessTokenSecret : config.auth.refreshTokenSecret;
     try {
       return (jwt.verify(token, tokenSecret) as { user: User }).user;
     } catch (e) {

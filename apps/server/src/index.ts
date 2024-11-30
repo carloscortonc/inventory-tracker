@@ -1,7 +1,10 @@
 import "reflect-metadata";
 import Koa from "koa";
+import fs from "fs";
+import https from "https";
 import Router from "@koa/router";
-import bodyParser from "koa-bodyparser";
+import { bodyParser } from "@koa/bodyparser";
+import cors from "@koa/cors";
 import { parseCookie as cookieParser } from "koa-cookies";
 import config from "@/modules/config";
 import { init } from "@/modules/db";
@@ -13,12 +16,29 @@ import { authenticated, initializeServiceUser } from "@/modules/auth";
 import { User } from "@/entities/user";
 
 const app = new Koa<any, { user: User }>();
+
+const options = {
+  key: fs.readFileSync("./cert/key.pem"),
+  cert: fs.readFileSync("./cert/cert.pem"),
+};
+
 const apiRouter = new Router()
   .prefix("/api")
   .use(authRouter.routes())
   // authenticate remaining routers
   .use(authenticated)
   .use(productsRouter.routes());
+
+// cors
+app.use(
+  cors({
+    // origin: ["http://localhost:3000"],
+    origin(ctx) {
+      return ctx.get("Origin") || "*";
+    },
+    credentials: true,
+  }),
+);
 
 // Logger
 app.use(logger());
@@ -39,6 +59,8 @@ await init("scanner");
 
 await initializeServiceUser();
 
-app.listen(config.port, () => {
+const server = https.createServer(options, app.callback());
+
+server.listen(config.port, () => {
   log.info("Server listing on port ".concat(config.port));
 });

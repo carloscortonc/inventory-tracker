@@ -17,9 +17,7 @@ class AuthController {
     let user: User = { isServiceAccount: true } as User;
     try {
       const authorization = ctx.headers.authorization || " ";
-      [user.username, user.password] = Buffer.from(authorization.split(" ")[1], "base64")
-        .toString()
-        .split(":");
+      [user.username, user.password] = Buffer.from(authorization.split(" ")[1], "base64").toString().split(":");
       user = await AuthService.validateUser(user);
     } catch {
       throw new RequestError({ status: 401, message: "Invalid credentials" });
@@ -38,6 +36,7 @@ class AuthController {
       throw new RequestError({ status: 401, message: "Invalid credentials" });
     });
     this._setUserTokens(ctx, user);
+    ctx.status = 204;
   }
 
   async refreshUser(ctx: Koa.Context) {
@@ -58,7 +57,7 @@ class AuthController {
       [ACCESS_TOKEN_KEY]: accessToken,
       [REFRESH_TOKEN_KEY]: refreshToken,
     }).forEach(([k, v]) => {
-      ctx.cookies.set(k, v);
+      ctx.cookies.set(k, v, { sameSite: "none", httpOnly: true, secure: true });
     });
   }
 

@@ -27,12 +27,13 @@ class ProductService {
   }
 
   private async fetchProduct(code: string) {
+    // Mock for testing to avoid rate-limit on queries
+    return { code, name: "Product Name" } as Product;
     return fetch("https://go-upc.com/search?q=".concat(code || "4511338000151"))
       .then((r) => r.text())
       .then((r) => {
         const dom = new JSDOM(r);
-        const name =
-          dom.window.document.querySelector("h1.product-name")?.textContent;
+        const name = dom.window.document.querySelector("h1.product-name")?.textContent;
         if (!name) {
           throw new Error("Not found");
         }

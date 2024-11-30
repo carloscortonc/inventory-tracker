@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
-// import path from "path";
 
 // load configuration
-dotenv.config(/* { path: path.join(process.cwd(), "..", ".env") } */);
+dotenv.config();
 
 export default {
   port: process.env.PORT,
@@ -15,7 +14,7 @@ export default {
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
     expiration: {
-      access: "5s",
+      access: "1h",
       refresh: "3d",
     },
   },

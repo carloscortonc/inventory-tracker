@@ -21,12 +21,16 @@ export const authenticated = async (ctx: any, next: any) => {
 };
 
 export async function initializeServiceUser() {
+  if (!config.srvuser.password) {
+    logger.info("skipping service-user init: no password present");
+    return;
+  }
   const username = config.srvuser.username;
   const password = config.srvuser.password;
   return UserSchema.findOneAndUpdate(
     { isServiceAccount: true, username },
     { password: hash(password) },
-    { new: true, upsert: true }
+    { new: true, upsert: true },
   ).then(() => {
     logger.info("service-user initialized");
   });
