@@ -1,0 +1,38 @@
+{
+  "name": "@inventory-tracker/client",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build --base=/client",
+    "package": "echo [client::package]",
+    "deploy": "npm run build && rpi deploy dist --type=web --name=client"
+  },
+  "dependencies": {
+    "antd": "^5.20.0",
+    "antd-mobile": "^5.37.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.26.0",
+    "react-use": "^17.5.1",
+    "react-zxing": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.25",
+    "@types/react-dom": "^18.2.11",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "@vitejs/plugin-react-swc": "^3.4.0",
+    "eslint": "^8.51.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11",
+    "vite-tsconfig-paths": "^4.3.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

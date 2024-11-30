@@ -1,0 +1,49 @@
+.video-feed-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: grey;
+}
+
+.video-feed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-feed-wrapper::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 2px;
+  width: 100%;
+  background-color: red;
+}
+
+.video-feed-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  background-color: white;
+
+  --shadow-size: 10%;
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    0 100%,
+    0 calc(50% - var(--shadow-size)),
+    100% calc(50% - var(--shadow-size)),
+    100% calc(50% + var(--shadow-size)),
+    0 calc(50% + var(--shadow-size)),
+    0 100%,
+    100% 100%,
+    100% 0%
+  );
+}
