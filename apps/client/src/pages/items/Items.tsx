@@ -2,7 +2,7 @@ import { request } from "@/utils/fetch";
 import { useAsync } from "react-use";
 
 const Items = () => {
-  const { value: items, loading } = useAsync(() => request({ path: "/api/products" }), []);
+  const { value: items, loading } = useAsync(() => request("/api/products"), []);
 
   if (loading) {
     return <>"loading products"</>;

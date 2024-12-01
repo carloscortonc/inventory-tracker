@@ -20,7 +20,7 @@ const AuthProvider = (props: Props) => {
   const navigate = useNavigate();
   const redirectTo = encodeURIComponent(window.location.pathname + window.location.search);
   const { value, loading, retry } = useAsyncRetry(async () => {
-    return request<Pick<AuthContext, "username">>({ path: "/api/auth" }).catch(() => {
+    return request<Pick<AuthContext, "username">>("/api/auth").catch(() => {
       navigate(`/login?${REDIRECT_TO}=${redirectTo}`);
     });
   }, []);

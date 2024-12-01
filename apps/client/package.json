@@ -9,6 +9,8 @@
     "deploy": "npm run build && rpi deploy dist --type=web --name=client"
   },
   "dependencies": {
+    "@lit/react": "^1.0.6",
+    "@material/web": "^2.2.0",
     "antd": "^5.20.0",
     "antd-mobile": "^5.37.1",
     "react": "^18.2.0",

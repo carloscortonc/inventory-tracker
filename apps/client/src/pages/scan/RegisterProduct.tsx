@@ -54,9 +54,7 @@ const RegisterProduct = () => {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
   const { loading, value } = useAsync(async () => {
-    return request<ProductInfo>({ path: "/api/products/".concat(code!) })
-      .then()
-      .catch(() => ({}) as ProductInfo);
+    return request<ProductInfo>("/api/products/".concat(code!)).catch(() => ({}) as ProductInfo);
   }, [code]);
 
   const onSubmit: RegisterProductFormProps["onSubmit"] = (values) => {

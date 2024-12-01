@@ -1,9 +1,20 @@
 import config from "@/config";
 
-export async function request<E = unknown>(options: { path: string } & RequestInit): Promise<E> {
-  const { path, ...rest } = options;
-  const headers = { ...(options.headers || {}) };
-  return fetch(config.serverUrl.concat(options.path), { ...rest, headers, credentials: "include" })
+type RequestOptions = {
+  body?: object;
+  headers?: Record<string, string>;
+  /** Http method. `get` is already default */
+  method?: "post" | "put" | "delete";
+};
+export async function request<E = unknown>(path: string, options: RequestOptions = {}): Promise<E> {
+  const { body, ...rest } = options;
+  const headers = { ...(body ? { "content-type": "application/json" } : {}), ...(options.headers || {}) };
+  return fetch(config.serverUrl.concat(path), {
+    ...rest,
+    headers,
+    credentials: "include",
+    body: body ? JSON.stringify(body) : undefined,
+  })
     .then((r) => {
       if (!r.ok) {
         throw r;
