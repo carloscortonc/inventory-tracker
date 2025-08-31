@@ -1,0 +1,15 @@
+services:
+  # in development, server is proxied by nginx
+  nginx:
+    build:
+      context: ./nginx
+      additional_contexts:
+        - source=./apps/client/dist
+    image: inventory-tracker-nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/nginx-dev.conf:/etc/nginx/conf.d/default.conf
