@@ -1,0 +1,42 @@
+.cmp-sidebar {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  transition: opacity 0.4s;
+
+  &:not(.visible) {
+    opacity: 0;
+    display: contents;
+  }
+
+  &:not(.visible) &__content {
+    bottom: -80%;
+  }
+
+  &__content {
+    border-radius: 15px 15px 0 0;
+    transition: bottom 0.4s ease-in;
+    background: white;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    &::before {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 4px;
+      background: grey;
+      border-radius: 2px;
+      margin: 8px auto 16px auto;
+    }
+
+    & > .cmp-layout {
+      height: calc(100% - 40px);
+    }
+  }
+}

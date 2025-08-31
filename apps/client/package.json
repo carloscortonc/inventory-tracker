@@ -9,17 +9,19 @@
     "deploy": "npm run build && rpi deploy dist --type=web --name=client"
   },
   "dependencies": {
-    "@lit/react": "^1.0.6",
-    "@material/web": "^2.2.0",
-    "antd": "^5.20.0",
-    "antd-mobile": "^5.37.1",
+    "@yudiel/react-qr-scanner": "^2.3.1",
+    "classnames": "^2.5.1",
+    "lodash.pick": "^4.4.0",
     "react": "^18.2.0",
+    "react-barcode-scanner": "^4.0.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.26.0",
     "react-use": "^17.5.1",
-    "react-zxing": "^2.0.2"
+    "react-zxing": "^2.0.2",
+    "use-long-press": "^3.3.0"
   },
   "devDependencies": {
+    "@types/lodash.pick": "^4.4.9",
     "@types/react": "^18.2.25",
     "@types/react-dom": "^18.2.11",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
@@ -29,8 +31,11 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "sass": "^1.89.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.11",
+    "vite-plugin-mkcert": "^1.17.8",
+    "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^4.3.2"
   },
   "keywords": [],

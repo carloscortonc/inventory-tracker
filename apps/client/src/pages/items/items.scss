@@ -1,0 +1,46 @@
+.item {
+  height: 56px;
+  padding: 8px 16px;
+  display: flex;
+  gap: 16px;
+
+  :active {
+    background: grey;
+  }
+
+  &__left {
+    height: 100%;
+    width: 56px;
+    border-radius: 8px;
+    background: #ddd;
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    & > span {
+      line-height: 27px;
+    }
+
+    & > span.detail {
+      color: rgba(73, 69, 79, 0.5);
+    }
+  }
+}
+
+.scan-btn,
+.item-actions > button {
+  width: 100%;
+}
+
+.item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.edit-item-sidebar {
+  z-index: 1;
+}

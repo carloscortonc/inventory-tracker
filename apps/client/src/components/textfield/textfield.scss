@@ -1,0 +1,30 @@
+.cmp-input {
+  position: relative;
+  padding: 8px 0 /* 16px */;
+}
+
+.cpm-textfield {
+  --side-padding: 13px;
+  height: 27px;
+  border: none;
+  border-radius: 20px;
+  width: calc(100% - (2 * var(--side-padding))) !important;
+  padding: 13.5px var(--side-padding);
+  background: rgba(73, 69, 79, 0.04);
+
+  &:focus-visible {
+    // outline: none;
+    outline-color: rgba(73, 69, 79, 0.06);
+  }
+}
+
+.cmp-input > label {
+  position: absolute;
+  top: 4px;
+  left: 32px;
+  transform: translateY(-50%);
+  padding: 2px 4px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  color: grey;
+}

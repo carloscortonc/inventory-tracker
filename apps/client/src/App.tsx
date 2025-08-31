@@ -1,13 +1,16 @@
 import AuthProvider from "./providers/AuthProvider";
+import ComponentProvider from "./providers/components-provider";
 import AppRoutes from "./routes";
 import "./app.css";
 
-const Routes = () => {
+const App = () => {
   return (
-    <AuthProvider>
-      <AppRoutes />
-    </AuthProvider>
+    <ComponentProvider>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </ComponentProvider>
   );
 };
 
-export default Routes;
+export default App;

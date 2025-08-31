@@ -1,49 +1,47 @@
+.scanner-layout .cmp-layout__content {
+  padding: 0;
+}
+
 .video-feed-wrapper {
-  position: fixed;
+  width: 100%;
+  height: 100%;
+  position: relative;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
+  height: 100%;
   overflow: hidden;
   background-color: grey;
+}
+
+.video-feed-wrapper canvas {
+  height: unset !important;
 }
 
 .video-feed {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* object-fit: cover; */
+  width: 100%;
+  /* height: auto; */
 }
 
-.video-feed-wrapper::after {
-  content: "";
+.viewfinder {
   position: absolute;
-  left: 0;
   top: 50%;
-  height: 2px;
-  width: 100%;
-  background-color: red;
+  left: 30px;
+  transform: translateY(-50%);
+  width: calc(100% - 60px);
+  height: 130px;
+  border: 2px solid #ff0000;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
 }
 
-.video-feed-box {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.5;
-  background-color: white;
+.viewfinder.result {
+  border: 2px solid green;
+}
 
-  --shadow-size: 10%;
-  clip-path: polygon(
-    0% 0%,
-    0% 100%,
-    0 100%,
-    0 calc(50% - var(--shadow-size)),
-    100% calc(50% - var(--shadow-size)),
-    100% calc(50% + var(--shadow-size)),
-    0 calc(50% + var(--shadow-size)),
-    0 100%,
-    100% 100%,
-    100% 0%
-  );
+.viewfinder.outside {
+  border: 2px solid orange;
 }

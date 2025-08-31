@@ -1,0 +1,36 @@
+.cmp-layout {
+  --layout-header-height: 64px;
+  --layout-footer-height: calc(58px + 16px);
+  --layout-header-factor: 0;
+  --layout-footer-factor: 0;
+
+  height: 100%;
+
+  &__header,
+  &__content,
+  &__footer {
+    padding: 0 16px;
+  }
+
+  &__header {
+    height: var(--layout-header-height);
+  }
+
+  &__content {
+    height: calc(
+      100% - (var(--layout-header-height) * var(--layout-header-factor)) -
+        (var(--layout-footer-height) * var(--layout-footer-factor))
+    );
+  }
+
+  &__footer {
+    height: var(--layout-footer-height);
+  }
+
+  &.with-header {
+    --layout-header-factor: 1;
+  }
+  &.with-footer {
+    --layout-footer-factor: 1;
+  }
+}

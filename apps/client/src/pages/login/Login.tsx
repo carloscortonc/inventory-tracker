@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import type { FormProps } from "antd";
 import { request } from "@/utils/fetch";
 import { Navigate, useNavigate } from "react-router-dom";
 import { REDIRECT_TO, useAuth } from "@/providers/AuthProvider";
 import Button from "@/components/button";
-import "./login.css";
 import Textfield from "@/components/textfield";
+import Loader from "@/components/loader";
+import "./login.css";
 
 type FormValues = {
   username?: string;
@@ -14,18 +14,19 @@ type FormValues = {
 };
 
 const Login: React.FC = () => {
-  const { username, onLoginSuccess } = useAuth();
+  const { username, refreshAuth } = useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState<string>();
+  const [state, setState] = useState<{ error?: string; loading: boolean }>({ loading: false });
   const onLogin = (values: FormValues) => {
+    setState({ loading: true });
     request("/api/auth/user", { method: "post", body: values })
       .then(() => {
-        onLoginSuccess();
+        refreshAuth();
         const redirectPath = new URLSearchParams(window.location.search).get(REDIRECT_TO);
         navigate(redirectPath ? decodeURIComponent(redirectPath) : "/");
       })
       .catch((e) => {
-        setError(e.message);
+        setState({ error: e.message, loading: false });
       });
   };
 
@@ -43,17 +44,10 @@ const Login: React.FC = () => {
         onLogin(values);
       }}
     >
-      <Textfield name="username" type="text" placeholder="Username" required value={"user"} onChange={console.log} />
-      <Textfield
-        name="password"
-        type="password"
-        placeholder="Password"
-        required
-        value={"test"}
-        onChange={console.log}
-      />
-      {error}
-      <Button type="submit">Log in</Button>
+      <Textfield name="username" type="text" label="Username" required defaultValue={"user"} />
+      <Textfield name="password" type="password" label="Password" required defaultValue={"test"} />
+      <div className="login-error">{state.error}</div>
+      <Button type="submit" label="Log in" disabled={state.loading} loading={state.loading} className="login-btn" />
     </form>
   );
 };
