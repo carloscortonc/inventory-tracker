@@ -14,6 +14,7 @@ import { authenticated, initializeServiceUser } from "@/modules/auth";
 import { User } from "@/entities/user";
 
 const app = new Koa<any, { user: User }>();
+app.proxy = true;
 
 const apiRouter = new Router()
   .prefix("/api")

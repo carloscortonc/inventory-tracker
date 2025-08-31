@@ -61,13 +61,13 @@ class AuthController {
       [ACCESS_TOKEN_KEY]: accessToken,
       [REFRESH_TOKEN_KEY]: refreshToken,
     }).forEach(([k, v]) => {
-      ctx.cookies.set(k, v, { sameSite: "none", httpOnly: true, secure: true });
+      ctx.cookies.set(k, v, { sameSite: "strict", httpOnly: true, secure: true });
     });
   }
 
   private _clearCookies(ctx: Koa.Context) {
     [ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY].forEach((k) => {
-      ctx.cookies.set(k, undefined, { sameSite: "none", httpOnly: true, secure: true });
+      ctx.cookies.set(k, undefined, { sameSite: "strict", httpOnly: true, secure: true });
     });
   }
 }
