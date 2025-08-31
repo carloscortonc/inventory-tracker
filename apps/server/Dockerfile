@@ -8,8 +8,9 @@ RUN npm ci --omit=dev
 
 COPY . .
 
-ARG PORT
+# ARG PORT
 
-EXPOSE $PORT
+EXPOSE 8080
+# EXPOSE $PORT
 
 CMD ["node", "index.js"]

@@ -26,6 +26,10 @@ class ProductService {
     return ProductSchema.findOneAndUpdate({ code: code }, rest, { new: true });
   }
 
+  async deleteProduct(code: string) {
+    return ProductSchema.findOneAndDelete({ code });
+  }
+
   private async fetchProduct(code: string) {
     // Mock for testing to avoid rate-limit on queries
     return { code, name: "Product Name" } as Product;

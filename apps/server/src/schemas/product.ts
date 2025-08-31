@@ -5,6 +5,7 @@ const schema = new mongoose.Schema<ProductEntity>({
   code: { type: "string", unique: true },
   name: { type: "string", required: true },
   quantity: { type: "Number", default: 0 },
+  threshold: { type: "Number", default: 0 },
 });
 
 const Product = mongoose.model("products", schema);

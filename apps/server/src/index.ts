@@ -1,7 +1,5 @@
 import "reflect-metadata";
 import Koa from "koa";
-import fs from "fs";
-import https from "https";
 import Router from "@koa/router";
 import { bodyParser } from "@koa/bodyparser";
 import cors from "@koa/cors";
@@ -16,11 +14,6 @@ import { authenticated, initializeServiceUser } from "@/modules/auth";
 import { User } from "@/entities/user";
 
 const app = new Koa<any, { user: User }>();
-
-const options = {
-  key: fs.readFileSync("./cert/key.pem"),
-  cert: fs.readFileSync("./cert/cert.pem"),
-};
 
 const apiRouter = new Router()
   .prefix("/api")
@@ -59,8 +52,6 @@ await init("scanner");
 
 await initializeServiceUser();
 
-const server = https.createServer(options, app.callback());
-
-server.listen(config.port, () => {
+app.listen(config.port, () => {
   log.info("Server listing on port ".concat(config.port));
 });

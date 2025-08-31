@@ -51,6 +51,10 @@ class AuthController {
     this._setUserTokens(ctx, user);
   }
 
+  async revoke(ctx: Koa.Context) {
+    this._clearCookies(ctx);
+  }
+
   private _setUserTokens(ctx: Koa.Context, user: User) {
     const { accessToken, refreshToken } = AuthService.generateTokens(omit(user, "password"));
     Object.entries({
@@ -63,7 +67,7 @@ class AuthController {
 
   private _clearCookies(ctx: Koa.Context) {
     [ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY].forEach((k) => {
-      ctx.cookies.set(k, undefined);
+      ctx.cookies.set(k, undefined, { sameSite: "none", httpOnly: true, secure: true });
     });
   }
 }

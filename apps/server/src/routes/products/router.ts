@@ -6,6 +6,7 @@ const router = new Router()
   .get("/", Controller.getProducts)
   .post("/", Controller.registerProduct)
   .get("/:code", Controller.getProduct)
-  .put("/:code", Controller.updateProduct);
+  .put("/:code", Controller.updateProduct)
+  .delete("/:code", Controller.deleteProduct);
 
 export default router;

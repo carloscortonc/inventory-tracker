@@ -22,6 +22,9 @@ class ProductsController {
     const data = <Product>ctx.request.body;
     return ProductService.updateProduct(data);
   }
+  async deleteProduct(ctx: Koa.Context) {
+    return ProductService.deleteProduct(ctx.params.code);
+  }
 }
 
 export default new ProductsController();

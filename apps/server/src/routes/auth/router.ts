@@ -7,6 +7,7 @@ const router = new Router()
   .get("/", authenticated, Controller.getAuthorization)
   .post("/service", Controller.authenticateService)
   .post("/user", Controller.authenticateUser)
-  .post("/refresh", Controller.refreshUser);
+  .post("/refresh", Controller.refreshUser)
+  .post("/revoke", Controller.revoke);
 
 export default router;
