@@ -19,7 +19,7 @@ const Login: React.FC = () => {
   const [state, setState] = useState<{ error?: string; loading: boolean }>({ loading: false });
   const onLogin = (values: FormValues) => {
     setState({ loading: true });
-    request("/api/auth/user", { method: "post", body: values })
+    request("/auth/user", { method: "post", body: values })
       .then(() => {
         refreshAuth();
         const redirectPath = new URLSearchParams(window.location.search).get(REDIRECT_TO);

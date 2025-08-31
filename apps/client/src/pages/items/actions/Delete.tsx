@@ -6,7 +6,7 @@ import { useAsyncFn } from "react-use";
 export const Delete = (props: { code: string }) => {
   const navigate = useNavigate();
   const [state, fn] = useAsyncFn(
-    () => request<void>(`/api/products/${props.code}`, { method: "delete" }).then(() => navigate("/items")),
+    () => request<void>(`/products/${props.code}`, { method: "delete" }).then(() => navigate("/items")),
     [props.code],
   );
   return <Button label="Delete" danger loading={state.loading} onClick={fn} />;

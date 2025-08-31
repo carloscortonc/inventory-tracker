@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "vite",
-    "build": "vite build --base=/client",
+    "build": "vite build",
     "package": "echo [client::package]",
     "deploy": "npm run build && rpi deploy dist --type=web --name=client"
   },

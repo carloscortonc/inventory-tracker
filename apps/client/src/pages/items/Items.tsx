@@ -15,7 +15,7 @@ import Sidebar from "@/components/sidebar";
 
 const Items = () => {
   const navigate = useNavigate();
-  const { value: items, loading, error } = useAsync(() => request<Item[]>("/api/products"), []);
+  const { value: items, loading, error } = useAsync(() => request<Item[]>("/products"), []);
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => items?.filter((e) => e.name.includes(search)), [items, search]);

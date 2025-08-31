@@ -23,8 +23,8 @@ export const ItemDetail = (props: Props) => {
     (v: Item) => {
       setLoading(true);
       const r = props.editMode
-        ? request<void>(`/api/products/${v.code}`, { method: "put", body: v })
-        : request<void>("/api/products", { method: "post", body: v });
+        ? request<void>(`/products/${v.code}`, { method: "put", body: v })
+        : request<void>("/products", { method: "post", body: v });
 
       r.then(() => {
         navigate("/items");

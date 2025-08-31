@@ -29,7 +29,7 @@ const AuthProvider = (props: Props) => {
   const navigate = useNavigate();
   const redirectTo = getRedirectValue();
   const { value, loading, retry } = useAsyncRetry(async () => {
-    return request<Pick<AuthContext, "username">>("/api/auth").catch(() => {
+    return request<Pick<AuthContext, "username">>("/auth").catch(() => {
       navigate(`/login?${redirectTo}`);
     });
   }, []);

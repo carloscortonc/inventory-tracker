@@ -29,7 +29,7 @@ export const Scanner = () => {
     (code: string) => {
       clearTimeout(timeoutId);
       detectedRef.current = true;
-      request<Item>("/api/products/".concat(code)).then(setDetected);
+      request<Item>("/products/".concat(code)).then(setDetected);
     },
     [navigate, setDetected, detectedRef],
   );

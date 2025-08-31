@@ -5,6 +5,7 @@
   background-color: #3a63ed;
   color: white;
   padding: 0 24px;
+  user-select: none;
 
   &.disabled {
     opacity: 0.75;
