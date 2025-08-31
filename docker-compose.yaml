@@ -1,0 +1,18 @@
+services:
+  server:
+    build: ./apps/server/dist
+    image: inventory-tracker-server
+    container_name: server
+    ports:
+      - 8080:8080
+  nginx:
+    build:
+      context: ./nginx
+      additional_contexts:
+        - source=./apps/client/dist
+    image: inventory-tracker-nginx
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
