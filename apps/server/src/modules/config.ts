@@ -14,8 +14,8 @@ export default {
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
     expiration: {
-      access: "1h",
-      refresh: "3d",
+      access: "4h",
+      refresh: "365d",
     },
   },
   email: {

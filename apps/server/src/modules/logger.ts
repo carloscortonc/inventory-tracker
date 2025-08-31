@@ -1,7 +1,7 @@
 import util from "util";
 
 // Global reference to the stream being used for logging
-let _stream: NodeJS.WriteStream;
+let _stream: NodeJS.WriteStream = process.stdout;
 
 const simpleDateFormat = () => new Date().toISOString().replace("T", " ").slice(0, -1);
 

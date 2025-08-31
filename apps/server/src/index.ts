@@ -12,6 +12,8 @@ import productsRouter from "@/routes/products/router";
 import authRouter from "@/routes/auth/router";
 import { authenticated, initializeServiceUser } from "@/modules/auth";
 import { User } from "@/entities/user";
+// Integreate scanner into server
+import "../../scanner/src/index";
 
 const app = new Koa<any, { user: User }>();
 app.proxy = true;

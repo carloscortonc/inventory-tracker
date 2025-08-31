@@ -5,7 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "PORT=8080 nodemon --watch src -e ts --exec tsx src/index.ts",
+    "start": "PORT=8080 nodemon --watch src --watch ../scanner/src -e ts --exec tsx src/index.ts",
     "build": "rimraf dist && tsc && tsc-alias -f && copyfiles package*.json .env Dockerfile dist",
     "deploy": "npm run build && rpi deploy dist --name server --vars PORT=8443 --build-on-target --envfile .env"
   },
