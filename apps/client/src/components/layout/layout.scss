@@ -5,6 +5,9 @@
   --layout-footer-factor: 0;
 
   height: 100%;
+  // adapt for non-mobile
+  max-width: 500px;
+  margin: auto;
 
   &__header,
   &__content,
