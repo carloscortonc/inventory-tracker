@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema<UserEntity>({
   username: { type: "string", unique: true },
   password: { type: "string", required: true },
+  isAdmin: { type: "boolean", required: false },
   isServiceAccount: { type: "boolean", default: false },
 });
 

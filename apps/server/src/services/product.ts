@@ -1,6 +1,9 @@
+import thresholdNotice from "@/email-templates/threshold-notice";
 import { Product } from "@/entities/product";
+import { generateEmailContent, sendEmail } from "@/modules/email";
 import log from "@/modules/logger";
 import ProductSchema from "@/schemas/product";
+import Userchema from "@/schemas/user";
 import { JSDOM } from "jsdom";
 
 class ProductService {
@@ -43,6 +46,32 @@ class ProductService {
         log.error("[decrement-product] Error updating product quantity", { code, newQuantity });
       });
 
+    // Check if there are threshold alerts
+    if (!updated || updated.quantity >= updated.threshold) {
+      return;
+    }
+    // Find the list of products with quantity < threshold
+    const products = await ProductSchema.find({ $expr: { $lt: ["$quantity", "$threshold"] } }).then((list) =>
+      list.map((p) => p.toObject()),
+    );
+    const template = thresholdNotice({ products });
+    // Find admin user, check if username is valid email
+    const admin = await Userchema.findOne({ isAdmin: true });
+    if (!admin || !/^[^@]+@[^@]+\.[^@]+$/.test(admin.username)) {
+      log.error("[decrement-product] Unable to find admin user's email");
+      return;
+    }
+    // Send email (async)
+    sendEmail({ ...generateEmailContent(template), to: admin.username })
+      .then(() => {
+        log.info("[decrement-product] Email sent with threshold alert to: ".concat(admin.username));
+      })
+      .catch((e) => {
+        log.error("[decrement-product] Error sending email with threshold alert", {
+          email: admin.username,
+          err: e.message,
+        });
+      });
   }
 
   async deleteProduct(code: string) {
@@ -51,7 +80,7 @@ class ProductService {
 
   private async fetchProduct(code: string) {
     // Mock for testing to avoid rate-limit on queries
-    return { code, name: "Product Name" } as Product;
+    // return { code, name: "Product Name" } as Product;
     return fetch("https://go-upc.com/search?q=".concat(code || "4511338000151"))
       .then((r) => r.text())
       .then((r) => {
