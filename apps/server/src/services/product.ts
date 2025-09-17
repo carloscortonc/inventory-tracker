@@ -1,4 +1,5 @@
 import { Product } from "@/entities/product";
+import log from "@/modules/logger";
 import ProductSchema from "@/schemas/product";
 import { JSDOM } from "jsdom";
 
@@ -21,9 +22,27 @@ class ProductService {
     return ProductSchema.create(data);
   }
 
-  async updateProduct(data: Product) {
+  async updateProduct(data: Pick<Product, "code"> & Partial<Omit<Product, "code">>) {
     const { code, ...rest } = data;
     return ProductSchema.findOneAndUpdate({ code: code }, rest, { new: true });
+  }
+
+  async decrementProduct(code: string) {
+    const product = await this.getProduct(code).catch(() => null);
+    if (!product) {
+      log.error("[decrement-product] Product not found", { code });
+      return;
+    }
+    const newQuantity = (product.quantity || 0) - 1;
+    const updated = await this.updateProduct({ code: code, quantity: newQuantity })
+      .then((r) => {
+        log.info("[decrement-product] Product quantity updated", { code, quantity: newQuantity });
+        return r;
+      })
+      .catch(() => {
+        log.error("[decrement-product] Error updating product quantity", { code, newQuantity });
+      });
+
   }
 
   async deleteProduct(code: string) {

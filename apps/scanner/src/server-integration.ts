@@ -1,27 +1,15 @@
 import config from "./config";
 import ProductService from "../../server/src/services/product";
-import log from "../../server/src/modules/logger";
 
+// Use this if scanner is run in a separated process/instance
 export async function sendCode(code: string) {
-  return request({ path: "/api/products/".concat(code), method: "put" })
+  return request({ path: `/api/products/${code}/decrement`, method: "post" })
     .then((r) => console.log(r))
     .catch(console.log);
 }
 
 export async function updateProduct(code: string) {
-  const product = await ProductService.getProduct(code).catch(() => null);
-  if (!product) {
-    log.error("[scanner::update-product] Product not found", { code });
-    return;
-  }
-  const newQuantity = (product.quantity || 0) - 1;
-  return ProductService.updateProduct({ code: code, quantity: newQuantity })
-    .then(() => {
-      log.info("[scanner::update-product] Product quantity updated", { code, quantity: newQuantity });
-    })
-    .catch(() => {
-      log.error("[scanner::update-product] Error updating product quantity", { code, newQuantity });
-    });
+  return ProductService.decrementProduct(code);
 }
 
 async function request(options: {
