@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "PORT=8080 nodemon --watch src --watch ../scanner/src -e ts --exec tsx src/index.ts",
-    "build": "rimraf dist && tsc && tsc-alias -f && copyfiles package*.json .env Dockerfile dist",
+    "build": "rimraf dist && bun scripts/build.js && copyfiles package*.json .env Dockerfile dist",
     "deploy": "npm run build && rpi deploy dist --name server --vars PORT=8443 --build-on-target --envfile .env"
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "@types/koa__router": "^12.0.4",
     "@types/koa-bodyparser": "^4.3.12",
     "@types/lodash.omit": "^4.5.9",
+    "bun-types": "^1.2.22",
     "copyfiles": "^2.4.1",
     "nodemon": "^3.1.0",
     "rimraf": "^6.0.1",
