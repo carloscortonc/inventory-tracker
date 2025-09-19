@@ -12,6 +12,7 @@ class HIDDevice extends EventEmitter<{ data: [code: string] }> {
     super();
     this.devicePath = devicePath;
     log.info("[HIDDevice] Initializing", { device: this.devicePath });
+    this.waitForDevice();
   }
 
   async waitForDevice() {
