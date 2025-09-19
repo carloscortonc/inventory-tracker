@@ -15,7 +15,14 @@ import Sidebar from "@/components/sidebar";
 
 const Items = () => {
   const navigate = useNavigate();
-  const { value: items, loading, error } = useAsync(() => request<Item[]>("/products"), []);
+  const {
+    value: items,
+    loading,
+    error,
+  } = useAsync(
+    () => request<Item[]>("/products").then((r) => r.sort((a, b) => a.name.localeCompare(b.name))) as Promise<Item[]>,
+    [],
+  );
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => items?.filter((e) => e.name.includes(search)), [items, search]);
