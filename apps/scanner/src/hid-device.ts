@@ -15,9 +15,6 @@ class HIDDevice extends EventEmitter<{ data: [code: string] }> {
     super();
     this.devicePath = devicePath;
     log.info("[HIDDevice] Initializing", { device: this.devicePath });
-    // this.udev = new UdevMonitor(this.devicePath);
-    // this.udev.on("add", () => this.checkForDevice());
-    // this.udev.on("remove", () => this.checkForDevice());
     setInterval(() => this.verify(), 1000 * 60);
     // Initial check
     this.checkForDevice();
