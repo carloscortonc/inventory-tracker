@@ -1,7 +1,11 @@
 import util from "util";
+import Koa from "koa";
+import fastRedact from "fast-redact";
 
 // Global reference to the stream being used for logging
 let _stream: NodeJS.WriteStream = process.stdout;
+
+const bodyRedact = fastRedact({ paths: ["password"] });
 
 const simpleDateFormat = () => new Date().toISOString().replace("T", " ").slice(0, -1);
 
@@ -29,10 +33,14 @@ log.error = (message: string, params: Record<string, any> = {}) => log({ level: 
 
 export const logger = (stream: NodeJS.WriteStream = process.stdout) => {
   _stream = stream;
-  return async (ctx: any, next: any) => {
+  return async (ctx: Koa.Context, next: any) => {
     await next();
-    const message = util.format("%s %s %s %s", ctx.method, ctx.path, ctx.status);
-    log.info(message, { ip: ctx.ip, ...(ctx.request.body && { body: ctx.request.body }) });
+    const message = util.format("%s %s %s", ctx.method, ctx.path, ctx.status);
+    log.info(message, {
+      user: ctx.user?.username,
+      ip: ctx.ip,
+      ...(ctx.request.body && { body: bodyRedact(ctx.request.body) }),
+    });
   };
 };
 
