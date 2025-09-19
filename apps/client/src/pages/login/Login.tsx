@@ -6,6 +6,7 @@ import Button from "@/components/button";
 import Textfield from "@/components/textfield";
 import Loader from "@/components/loader";
 import "./login.css";
+import Layout from "@/components/layout";
 
 type FormValues = {
   username?: string;
@@ -35,20 +36,22 @@ const Login: React.FC = () => {
   }
 
   return (
-    <form
-      className="login"
-      onSubmit={(e) => {
-        e.preventDefault();
-        const fd = new FormData(e.target as HTMLFormElement);
-        const values = [...fd.entries()].reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {} as FormValues);
-        onLogin(values);
-      }}
-    >
-      <Textfield name="username" type="text" label="Username" required defaultValue={"user"} />
-      <Textfield name="password" type="password" label="Password" required defaultValue={"test"} />
-      <div className="login-error">{state.error}</div>
-      <Button type="submit" label="Log in" disabled={state.loading} loading={state.loading} className="login-btn" />
-    </form>
+    <Layout>
+      <form
+        className="login"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.target as HTMLFormElement);
+          const values = [...fd.entries()].reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {} as FormValues);
+          onLogin(values);
+        }}
+      >
+        <Textfield name="username" type="text" label="Username" required spellCheck={false} />
+        <Textfield name="password" type="password" label="Password" required />
+        <div className="login-error">{state.error}</div>
+        <Button type="submit" label="Log in" disabled={state.loading} loading={state.loading} className="login-btn" />
+      </form>
+    </Layout>
   );
 };
 
