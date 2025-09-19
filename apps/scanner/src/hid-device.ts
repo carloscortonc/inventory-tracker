@@ -2,40 +2,36 @@ import fs from "fs";
 import EventEmitter from "events";
 import CodeBuilder from "./code-builder";
 import log from "../../server/src/modules/logger";
+import UdevMonitor from "./udev-monitor";
 
 class HIDDevice extends EventEmitter<{ data: [code: string] }> {
   devicePath: string;
+  udev: UdevMonitor;
   codeBuilder = new CodeBuilder();
   isReading = false;
+  debounceTimeout?: NodeJS.Timeout;
 
   constructor(devicePath: string) {
     super();
     this.devicePath = devicePath;
     log.info("[HIDDevice] Initializing", { device: this.devicePath });
-    this.waitForDevice();
+    // this.udev = new UdevMonitor(this.devicePath);
+    // this.udev.on("add", () => this.checkForDevice());
+    // this.udev.on("remove", () => this.checkForDevice());
+    setInterval(() => this.verify(), 1000 * 60);
+    // Initial check
+    this.checkForDevice();
   }
 
-  async waitForDevice() {
-    if (await this.checkIfDeviceExists()) {
-      this.read();
-      return;
-    }
-    const devName = this.devicePath.replace("/dev/", "");
-    const watcher = fs.watch("/dev", async (eventType, filename) => {
-      // Check if the event is for our device
-      if (filename !== devName || eventType !== "rename") return;
-      // Check if the device now exists
-      if (await this.checkIfDeviceExists()) {
-        return;
-      }
-      // Debounce
-      setTimeout(async () => {
-        if (await this.checkIfDeviceExists()) {
-          watcher.close();
-          this.read();
-        }
-      }, 100);
-    });
+  verify() {
+    this.checkIfDeviceExists().then((e) => (e ? this.read() : {}));
+  }
+
+  async checkForDevice() {
+    if (this.debounceTimeout) clearTimeout(this.debounceTimeout);
+    this.debounceTimeout = setTimeout(async () => {
+      this.verify();
+    }, 1000);
   }
 
   async checkIfDeviceExists() {
@@ -61,14 +57,15 @@ class HIDDevice extends EventEmitter<{ data: [code: string] }> {
     });
 
     const cleanup = () => {
-      log.info("[HIDDevice] Device disconnected", { device: this.devicePath });
       this.isReading = false;
-      !stream.closed && stream.close();
-      this.waitForDevice();
+      !stream.closed && stream.destroy();
     };
 
     stream.on("error", cleanup);
-    stream.on("close", cleanup);
+    stream.on("close", () => {
+      log.info("[HIDDevice] Device disconnected", { device: this.devicePath });
+      cleanup();
+    });
   }
 }
 

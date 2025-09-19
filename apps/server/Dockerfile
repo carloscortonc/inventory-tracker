@@ -1,10 +1,12 @@
 FROM arm64v8/alpine:3.20
 
+ENV UDEV=on
+
 WORKDIR /app
 
 ENV NODE_VERSION=20.15.1-r0
 
-RUN apk add --no-cache nodejs=$NODE_VERSION npm
+RUN apk add --no-cache nodejs=$NODE_VERSION npm udev
 
 COPY package*.json ./
 
