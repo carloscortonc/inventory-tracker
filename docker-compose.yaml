@@ -4,8 +4,6 @@ services:
     image: inventory-tracker-server
     container_name: server
     restart: unless-stopped
-    environment:
-      DEVICE: /dev/hidraw0
     privileged: true
     ports:
       - 8080:8080

@@ -21,7 +21,6 @@ export default {
   email: {
     username: process.env.EMAIL_USERNAME,
     password: process.env.EMAIL_PASSWORD,
-    secret: process.env.EMAIL_SECRET,
   },
   srvuser: {
     username: "scannersrv",
