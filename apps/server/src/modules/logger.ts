@@ -3,7 +3,8 @@ import Koa from "koa";
 import fastRedact from "fast-redact";
 
 // Global reference to the stream being used for logging
-let _stream: NodeJS.WriteStream = process.stdout;
+export type LoggerStream = { write: (message: string) => void };
+let _stream: LoggerStream = process.stdout;
 
 const bodyRedact = fastRedact({ paths: ["password"] });
 
@@ -31,8 +32,7 @@ const log = (params: { level: "INFO" | "ERROR"; message: string } & Record<strin
 log.info = (message: string, params: Record<string, any> = {}) => log({ level: "INFO", message, ...params });
 log.error = (message: string, params: Record<string, any> = {}) => log({ level: "ERROR", message, ...params });
 
-export const logger = (stream: NodeJS.WriteStream = process.stdout) => {
-  _stream = stream;
+export const logger = () => {
   return async (ctx: Koa.Context, next: any) => {
     await next();
     const message = util.format("%s %s %s", ctx.method, ctx.path, ctx.status);
