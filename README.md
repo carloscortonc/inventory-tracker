@@ -69,7 +69,10 @@ When an item is removed from inventory, it needs to be scanned so inventory is u
 Users can access the web-app to check the list of products, update information for any of them, or delete them.
 This flow is mainly used to update the quantity of an item, after re-stocking.
 
-![item actions](./docs/ui/item-actions.png)
+<div align="center">
+  <br />
+  <img src="./docs/ui/item-actions.png" width="300" alt="item actions" />
+</div>
 
 ## Development
 
