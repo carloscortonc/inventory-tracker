@@ -47,7 +47,7 @@ The first step is to register the items for which we wish to track inventory. Th
 4. **[client]** A form is created, using the retrieved information as default values, and sent back to the server
 5. **[server]** The new item is registered in the db
 
-![scan flow](./docs/ui/scan-flow.mp4)
+![scan flow](./docs/ui/scan-flow.gif)
 
 ### Removing items from inventory
 
