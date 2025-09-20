@@ -2,19 +2,14 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
+    "start": {
+      "cache": false,
+      "persistent": true
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**"]
-    },
-    "deploy": {
-      "dependsOn": ["build"],
-      "cache": false,
-      "passThroughEnv": ["SRV_PASSWORD"]
-    },
-    "start": {
-      "cache": false,
-      "persistent": true
     }
   }
 }

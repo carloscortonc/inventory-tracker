@@ -76,6 +76,24 @@ This flow is mainly used to update the quantity of an item, after re-stocking.
 
 ## Development
 
+To develop locally the following tools are required:
+
+- [node 20](https://nodejs.org/en/download)
+- [docker (docker compose)](https://www.docker.com/get-started/)
+- [bun](https://bun.com/docs/installation) (for bundling the server)
+
+The run the project in development mode, execute on the root:
+
+```sh
+npm run start
+```
+
+This will:
+
+- Start ther server on port 8080
+- Start the web app on port 3000
+- Start `docker compose` with an nginx server that proxies to both of the above
+
 ### Scanner
 
 Debugging scanner events for connecting/disconnecting device:
@@ -84,13 +102,34 @@ Debugging scanner events for connecting/disconnecting device:
 sudo udevadm monitor --udev
 ```
 
-In our scanner we will assume the device is connected when the server starts up.
+> [!NOTE]  
+> In our scanner we will assume the device is connected when the server starts up.
 
-## Packaging
+## Delivery
+
+As this is intended to be bundled in a small device (like Raspberry Pi Zero W) and placed in any desired location, a mechanism to configure access to the internet is required, for tasks like sending emails or retrieving information for a given barcode.
+To solve this, the project uses [wifi-connect](https://github.com/balena-os/wifi-connect):
+
+- It checks for internet connection, and when not found, it create an AP.
+- After the user connects to the AP, is redirected to a web page where a list of available wifi networks is shown
+- The user selects the correct network, and inputs its password
+- The utility attempts to connect to the network and checks internet access. If successful, the AP is disabled, and the process completed.
+
+### Raspberry Pi Zero W
+
+The [Raspberry Pi Zero W](https://www.raspberrypi.com/products/raspberry-pi-zero-w/) is very small computer, which makes it suitable to host this project. The challenge is its low resources (512MB RAM, ARMv6 architecture).
+To account for this, instead of using docker on the server we will manually install all project dependencies and requirements:
+
+- Check internet connection on boot
+- Systemd for server to run on boot, after internet connection available
+- node and nginx for running the apps
+
+> [!NOTE]  
+> To automate all the required steps, a [script](./rpizero/install.sh) was created. It relies on [rpi-cli](https://github.com/carloscortonc/rpi-cli)
 
 ### Logging
 
-Once packaged into the raspberrypi zero, it is not longer possible to check logs unless having physical access to the raspi (screen, ssh-ing).
+Once packaged into the Raspberrypi Zero, it is not longer possible to check logs unless having physical access to the raspi (screen, ssh-ing).
 Without using a Saas to send and check the logs, a straightforward way to achieve this with the current setup is to send them to a new collection in the mongodb we are already using (assuming o cloud version).
 
 To do this, we could modify [our logger](./apps/server/src/modules/logger.ts) to allow changing the `stream` used for logging:
@@ -115,13 +154,14 @@ And the update the stream when the db connection is stablished:
 +      const dbStreamer = getDbStreamer();
 +      setStream(dbStreamer);
 +    },
+
     ...
 
-+ const getDbStreamer = (): { write: (m: string) => void } => {
++ const getDbStreamer = (): LoggerStream => {
 +   const schema = new mongoose.Schema({}, { strict: false });
 +   const Model = mongoose.model("server_logs", schema);
 +   return {
-+     write: (message: string) => Model.create({ message }).catch(console.log),
++     write: (message: string) => Model.create({ message }),
 +   };
 + };
 ```

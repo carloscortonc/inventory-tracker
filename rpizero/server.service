@@ -1,0 +1,12 @@
+[Unit]
+Description=Inventory Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/node-server/index.js
+WorkingDirectory=/usr/local/node-server
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
