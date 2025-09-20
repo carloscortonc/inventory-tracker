@@ -22,7 +22,9 @@ In this case, the server would be inside the internal network, so:
 - Setup is easier, and security less demanding, as requests will only be performed from within.
 - Need physical access to the server to update its software.
 
-![on-site diagram](./docs/onsite.svg)
+<div align="center">
+  <img src="./docs/onsite.svg" width="600" alt="on-site diagram" />
+</div>
 
 ### Server off-site
 
@@ -33,7 +35,9 @@ The server would be deployed elsewhere, so:
 - The application would now be accesible from anywhere.
 - Software updates can easely be rolled out.
 
-![off-site diagram](./docs/offsite.svg)
+<div align="center">
+  <img src="./docs/offsite.svg" width="600" alt="off-site diagram" />
+</div>
 
 ## Application flow
 
@@ -48,6 +52,7 @@ The first step is to register the items for which we wish to track inventory. Th
 5. **[server]** The new item is registered in the db
 
 <div align="center">
+  <br />
   <img src="./docs/ui/scan-flow.gif" width="300" alt="scan flow" />
 </div>
 
