@@ -2,33 +2,16 @@ import fs from "fs";
 import EventEmitter from "events";
 import CodeBuilder from "./code-builder";
 import log from "../../server/src/modules/logger";
-import UdevMonitor from "./udev-monitor";
 
 class HIDDevice extends EventEmitter<{ data: [code: string] }> {
   devicePath: string;
-  udev: UdevMonitor;
   codeBuilder = new CodeBuilder();
-  isReading = false;
-  debounceTimeout?: NodeJS.Timeout;
 
   constructor(devicePath: string) {
     super();
     this.devicePath = devicePath;
     log.info("[HIDDevice] Initializing", { device: this.devicePath });
-    setInterval(() => this.verify(), 1000 * 60);
-    // Initial check
-    this.checkForDevice();
-  }
-
-  verify() {
-    this.checkIfDeviceExists().then((e) => (e ? this.read() : {}));
-  }
-
-  async checkForDevice() {
-    if (this.debounceTimeout) clearTimeout(this.debounceTimeout);
-    this.debounceTimeout = setTimeout(async () => {
-      this.verify();
-    }, 1000);
+    this.read();
   }
 
   async checkIfDeviceExists() {
@@ -38,9 +21,10 @@ class HIDDevice extends EventEmitter<{ data: [code: string] }> {
       .catch(() => false);
   }
 
-  read() {
-    if (this.isReading) return;
-    this.isReading = true;
+  async read() {
+    if (!this.checkIfDeviceExists()) {
+      return log.error("[HIDDevice] Device not found!");
+    }
     const stream = fs.createReadStream(this.devicePath);
     log.info("[HIDDevice] Device connected", { device: this.devicePath });
 
@@ -54,7 +38,6 @@ class HIDDevice extends EventEmitter<{ data: [code: string] }> {
     });
 
     const cleanup = () => {
-      this.isReading = false;
       !stream.closed && stream.destroy();
     };
 
