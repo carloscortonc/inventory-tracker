@@ -6,7 +6,7 @@ import fastRedact from "fast-redact";
 export type LoggerStream = { write: (message: string) => void };
 let _stream: LoggerStream = process.stdout;
 
-const bodyRedact = fastRedact({ paths: ["password"] });
+const bodyRedact = fastRedact({ paths: ["password"], censor: "***" });
 
 const simpleDateFormat = () => new Date().toISOString().replace("T", " ").slice(0, -1);
 

@@ -81,7 +81,7 @@ class ProductService {
   private async fetchProduct(code: string) {
     // Mock for testing to avoid rate-limit on queries
     // return { code, name: "Product Name" } as Product;
-    return fetch("https://go-upc.com/search?q=".concat(code || "4511338000151"))
+    return fetch("https://go-upc.com/search?q=".concat(code))
       .then((r) => r.text())
       .then((r) => {
         const dom = new JSDOM(r);

@@ -1,14 +1,16 @@
 {
   "name": "inventory-tracker",
   "version": "0.1.0",
-  "private": "true",
   "description": "Application to keep track of inventory of any kind, using barcodes as item identifiers",
+  "author": "Carlos Cortón Cobas <carloscortoncobas98@gmail.com>",
+  "homepage": "https://github.com/carloscortonc/inventory-tracker#readme",
+  "bugs": "https://github.com/carloscortonc/inventory-tracker/issues",
+  "license": "MIT",
   "scripts": {
     "start": "docker compose -f ./docker-compose-dev.yaml up -d && turbo run start"
   },
   "workspaces": [
-    "apps/server",
-    "apps/client"
+    "apps/*"
   ],
   "packageManager": "npm@10.8.2",
   "repository": {
@@ -16,12 +18,6 @@
     "url": "git+https://github.com/carloscortonc/inventory-tracker.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/carloscortonc/inventory-tracker/issues"
-  },
-  "homepage": "https://github.com/carloscortonc/inventory-tracker#readme",
   "devDependencies": {
     "generate-password": "^1.7.1",
     "turbo": "^2.0.9"
