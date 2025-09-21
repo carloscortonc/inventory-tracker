@@ -15,11 +15,6 @@
     "type": "git",
     "url": "git+https://github.com/carloscortonc/inventory-tracker.git"
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "packageManager": "npm@10.5.2",
   "keywords": [],
   "author": "",
   "license": "ISC",

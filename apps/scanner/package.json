@@ -8,9 +8,9 @@
     "node": "20.16.0"
   },
   "scripts": {
-    "start": "ts-node-esm src/index.ts",
-    "build": "rimraf dist && tsc && tsc-alias -f && copyfiles .env package*.json Dockerfile dist",
-    "deploy": "rpi deploy dist --name scanner --vars SRV_PASSWORD=$SRV_PASSWORD --build-on-target"
+    "standalone:start": "ts-node-esm src/index.ts",
+    "standalone:build": "rimraf dist && tsc && tsc-alias -f && copyfiles .env package*.json Dockerfile dist",
+    "standalone:deploy": "rpi deploy dist --name scanner --vars SRV_PASSWORD=$SRV_PASSWORD --build-on-target"
   },
   "author": "",
   "license": "ISC",
