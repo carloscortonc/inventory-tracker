@@ -142,7 +142,7 @@ To do this, we could modify [our logger](./apps/server/src/modules/logger.ts) to
 +};
 ```
 
-And the update the stream when the db connection is stablished:
+And then update the stream when the db connection is stablished:
 
 ```diff
 @@ /modules/db.ts @@
