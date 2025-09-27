@@ -6,7 +6,8 @@ RUN mkdir -p /etc/nginx/ssl
 # Generate self-signed certificate
 RUN apk add --no-cache openssl && \
   openssl req -x509 -nodes -days 365 \
-  -subj "/CN=localhost" \
+  -subj "/CN=inventory-tracker" \
+  -addext "subjectAltName=DNS:inventory-tracker,IP:127.0.0.1" \
   -newkey rsa:2048 \
   -keyout /etc/nginx/ssl/nginx.key \
   -out /etc/nginx/ssl/nginx.crt

@@ -19,7 +19,7 @@ export const REDIRECT_TO = "redirect_to";
 
 const getRedirectValue = () => {
   const sp = new URLSearchParams(window.location.search);
-  if (window.location.pathname !== "/login" && !sp.has(REDIRECT_TO)) {
+  if (window.location.pathname !== "/login" && !sp.has(REDIRECT_TO) && window.location.pathname !== "/") {
     sp.set(REDIRECT_TO, encodeURIComponent(window.location.pathname));
   }
   return sp.toString();
