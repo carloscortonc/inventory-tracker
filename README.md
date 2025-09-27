@@ -64,6 +64,11 @@ When an item is removed from inventory, it needs to be scanned so inventory is u
 2. **[server]** It first checks that the product exists, and updates its quantity by `-1`.
 3. **[server]** If the new quantity is below its configured threshold, an email is sent to the administrator with the full list of items whose quantity is also below threshold.
 
+<div align="center">
+  <br />
+  <img src="./docs/ui/email.png" width="500" alt="email alert" />
+</div>
+
 ### Updating item information
 
 Users can access the web-app to check the list of products, update information for any of them, or delete them.
@@ -81,6 +86,15 @@ To develop locally the following tools are required:
 - [node 20](https://nodejs.org/en/download)
 - [docker (docker compose)](https://www.docker.com/get-started/)
 - [bun](https://bun.com/docs/installation) (for bundling the server)
+
+First install all the dependencies. For this, run on the root:
+
+```sh
+npm run full-install
+```
+
+This will install common project dependencies (like turborepo), and also execute installation on each of the applications.
+This is required when using workspaces, because otherwise each app's dependencies would be hoisted to the root of the project, and would originate problems when bundling (https://github.com/npm/rfcs/issues/287).
 
 To run the project in development mode, execute on the root:
 

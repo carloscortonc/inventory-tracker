@@ -7,6 +7,7 @@
   "bugs": "https://github.com/carloscortonc/inventory-tracker/issues",
   "license": "MIT",
   "scripts": {
+    "full-install": "npm i --ws=false && npm i --prefix=apps/client --ws=false && npm i --prefix=apps/server --ws=false",
     "start": "docker compose -f ./docker-compose-dev.yaml up -d && turbo run start"
   },
   "workspaces": [
