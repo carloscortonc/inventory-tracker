@@ -129,6 +129,16 @@ To solve this, the project uses [wifi-connect](https://github.com/balena-os/wifi
 - The user selects the correct network, and inputs its password
 - The utility attempts to connect to the network and checks internet access. If successful, the AP is disabled, and the process completed.
 
+### Rasperry Pi 4B
+
+When bundled in a Raspberry Pi 4B, a script needs to be first executed to setup wifi-connect:
+
+```
+curl -L https://github.com/balena-io/wifi-connect/raw/master/scripts/raspbian-install.sh | sed 's/\*rpi/\*aarch64/' | bash
+```
+
+After this, `docker compose` can be executed.
+
 ### Raspberry Pi Zero W
 
 The [Raspberry Pi Zero W](https://www.raspberrypi.com/products/raspberry-pi-zero-w/) is very small computer, which makes it suitable to host this project. The challenge is its low resources (512MB RAM, ARMv6 architecture).
@@ -140,6 +150,7 @@ To account for this, instead of using docker on the server we will manually inst
 
 > [!NOTE]  
 > To automate all the required steps, a [script](./rpizero/install.sh) was created. It relies on [rpi-cli](https://github.com/carloscortonc/rpi-cli).
+> Before executing it, [install](https://www.raspberrypi.com/software/operating-systems/) Debian Bookworm on the raspberrypi.
 
 ### Logging
 
