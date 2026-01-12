@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web finder</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+      body {
+        display: grid;
+        place-items: center;
+      }
+      #p[data-found="0"]::before {
+        content: "Scanning network ...";
+      }
+      #p[data-found="1"]::before {
+        content: "InventoryTracker web found:";
+      }
+      #p[data-found="2"]::before {
+        content: "No results";
+      }
+      #p {
+        margin-left: -20px;
+        margin-top: -50px;
+      }
+      #p,
+      a {
+        font-size: 40px;
+        display: block;
+        text-align: center;
+      }
+    </style>
+    <script async type="module">
+      let [p, pr] = ["p", "p-result"].map((id) => document.getElementById(id));
+      let batchSize = 20;
+      let found = false;
+      for (let batchIndex = 2; batchIndex < 252; batchIndex += batchSize) {
+        const ac = new AbortController();
+        setTimeout(() => ac.abort(), 500);
+        await Promise.allSettled(
+          Array.from({ length: batchSize }, (_, i) => i + batchIndex).map((seg) =>
+            fetch(`https://192.168.1.${seg}`, { method: "HEAD", signal: ac.signal, mode: "cors" }).then((r) => {
+              if (r.headers.has("Inventory-Tracker-Web")) {
+                const url = `https://192.168.1.${seg}`;
+                pr.innerText = url;
+                pr.setAttribute("href", url);
+                p.setAttribute("data-found", "1");
+                found = true;
+                ac.abort();
+              }
+            }),
+          ),
+        );
+        if (found) break;
+      }
+
+      // Check if nothing found
+      if (!found) {
+        p.setAttribute("data-found", "2");
+      }
+    </script>
+  </head>
+  <body>
+    <p id="p" data-found="0"><a id="p-result" target="_blank"></a></p>
+  </body>
+</html>
